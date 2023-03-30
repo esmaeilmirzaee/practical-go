@@ -5,7 +5,8 @@ import (
 )
 
 func main() {
-	someFundamentals()
+	//fmt.Println(concat([]string{"A", "B"}, []string{"C", "D", "E"}))
+	//someFundamentals()
 }
 
 func someFundamentals() {
@@ -37,7 +38,7 @@ func appendIntSlice(s []int, newValue int) []int {
 	i := len(s)
 
 	printSlice(s)
-	if len(s) >= cap(s) {
+	if len(s) < cap(s) {
 		s = s[:len(s)+1]
 	} else {
 		s2 := make([]int, 2*len(s)+1)
@@ -50,4 +51,16 @@ func appendIntSlice(s []int, newValue int) []int {
 	printSlice(s)
 	s[i] = newValue
 	return s
+}
+
+func concat(s1, s2 []string) []string {
+	// restrictions no for loops
+	s := make([]string, len(s1)+len(s2))
+	copy(s, s1)
+	copy(s[len(s1):], s2)
+	return s
+}
+
+func concat2(s1, s2 []string) []string {
+	return append(s1, s2...)
 }
