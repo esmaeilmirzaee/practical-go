@@ -2,11 +2,32 @@ package main
 
 import (
 	"fmt"
+	"sort"
 )
 
 func main() {
 	//fmt.Println(concat([]string{"A", "B"}, []string{"C", "D", "E"}))
 	//someFundamentals()
+	values := []float64{7, 2, 6, 4, 5, 3, 1, 8}
+	fmt.Println(median(values))
+	fmt.Println(median([]float64{1, 2, 3, 4, 5, 6}))
+	fmt.Printf("%#v", values)
+}
+
+func median(s []float64) float64 {
+	// this has an effect on the passed arguments
+	// it points to the main slice
+	// to prevent further changes on the place
+	//values := make([]float64, len(s))
+	//copy(s, values)
+	//sort.Float64s(values)
+	sort.Float64s(s)
+	idx := len(s) / 2
+	// if len(s)&1 == 0 {
+	if len(s)%2 == 0 {
+		return (s[idx-1] + s[idx]) / 2
+	}
+	return s[idx]
 }
 
 func someFundamentals() {
