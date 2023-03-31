@@ -1,6 +1,8 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 type point struct {
 	X int
@@ -22,10 +24,28 @@ func game() {
 	p3, _ := newPoint(10, 20)
 	p3.move(20, 10)
 	p3.status()
+	fmt.Printf("This is type of p3: %T", *p3)
+
+	somePoints := []mover{
+		&p1,
+		&p2,
+	}
+	moveAll(somePoints, point{0, 0})
+}
+
+type mover interface {
+	move(x, y int)
+	// move(int, int) alternative
+}
+
+func moveAll(ms []mover, p point) {
+	for _, np := range ms {
+		np.move(p.X, p.Y)
+	}
 }
 
 func (p *point) status() {
-	fmt.Printf("You're in (%d, %d)", p.X, p.Y)
+	fmt.Printf("You're in (%d, %d)\n", p.X, p.Y)
 }
 
 func (p *point) move(x, y int) {
