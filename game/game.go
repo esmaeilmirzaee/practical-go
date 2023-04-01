@@ -30,29 +30,56 @@ func game() {
 	//	&p1,
 	//	&p2,
 	//}
-    //	moveAll(somePoints, point{0, 0})
-    fmt.Println("Copper: ", Copper)
-    fmt.Println("Key(20): ", Key(20))
+	//	moveAll(somePoints, point{0, 0})
+	fmt.Println("Copper: ", Copper)
+	fmt.Println("Key(20): ", Key(20))
 }
 
 type Key byte
 
 const (
-	Jade Key = iota + 1
-	Copper = iota + 5
+	Jade   Key = iota + 1
+	Copper     = iota + 5
 	Crystal
 )
 
-func (k Key) String() string {
-    switch k {
-case Jade:
-    return "jade"
-case Copper:
-    return "copper"
-case Crystal:
-    return "crystal"
+type player struct {
+	name string
+	p    point
+	keys []Key
 }
-    return fmt.Sprintf("%d", k)
+
+func (p *player) FoundKey(k Key) error {
+	if k < Jade || k >= Crystal {
+		return fmt.Errorf("error: Key is unknown: %s", k)
+	}
+
+	if !containKeys(p.keys, k) {
+		p.keys = append(p.keys, k)
+	}
+
+	return nil
+}
+
+func containKeys(keys []Key, k Key) bool {
+	for _, k2 := range keys {
+		if k == k2 {
+			return true
+		}
+	}
+	return false
+}
+
+func (k Key) String() string {
+	switch k {
+	case Jade:
+		return "jade"
+	case Copper:
+		return "copper"
+	case Crystal:
+		return "crystal"
+	}
+	return fmt.Sprintf("%d", k)
 }
 
 type mover interface {
