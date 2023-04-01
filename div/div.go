@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	fmt.Printf("%d/%d=%d", 2, 9, safeDiv(2, 9))
+	//	fmt.Printf("%d/%d=%d", 2, 9, safeDiv(2, 9))
 	q, err := safeDiv(2, 0)
 	if err != nil {
 		fmt.Printf("%v", err)
@@ -14,6 +14,7 @@ func main() {
 	fmt.Printf("%d/%d=%d", 2, 9, q)
 }
 
+// Golang says don't panic -- Proverb
 func safeDiv(a, b int) (q int, err error) {
 	defer func() {
 		if e := recover(); e != nil {
