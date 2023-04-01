@@ -26,11 +26,33 @@ func game() {
 	p3.status()
 	fmt.Printf("This is type of p3: %T", *p3)
 
-	somePoints := []mover{
-		&p1,
-		&p2,
-	}
-	moveAll(somePoints, point{0, 0})
+	// somePoints := []mover{
+	//	&p1,
+	//	&p2,
+	//}
+    //	moveAll(somePoints, point{0, 0})
+    fmt.Println("Copper: ", Copper)
+    fmt.Println("Key(20): ", Key(20))
+}
+
+type Key byte
+
+const (
+	Jade Key = iota + 1
+	Copper = iota + 5
+	Crystal
+)
+
+func (k Key) String() string {
+    switch k {
+case Jade:
+    return "jade"
+case Copper:
+    return "copper"
+case Crystal:
+    return "crystal"
+}
+    return fmt.Sprintf("%d", k)
 }
 
 type mover interface {
