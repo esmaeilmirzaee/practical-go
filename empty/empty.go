@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"golang.org/x/exp/slices"
 )
 
 func main() {
@@ -35,9 +36,28 @@ func main() {
 	fmt.Println("Max integer", maxFloat64([]float64{1, 2, 4, 5, 2, 3, 8}))
 	fmt.Println("Max integer", maxInt([]int{1, 2, 4, 5, 2, 3, 8}))
 	fmt.Println("Max integer", max([]int{1, 2, 4, 5, 2, 3, 8}))
+	keys := []key{1, 2, 6, 3, 4, 54}
+	if slices.Contains(keys, 2) {
+		fmt.Printf("%d exists in keys", 2)
+	}
 }
 
-func max[T int | float64](nums []T) T {
+type key byte
+
+func containsKey(keys []key, k key) bool {
+	for _, k2 := range keys {
+		if k == k2 {
+			return true
+		}
+	}
+	return false
+}
+
+type Number interface {
+	int | float64
+}
+
+func max[T Number](nums []T) T {
 	if len(nums) == 0 {
 		return 0
 	}
