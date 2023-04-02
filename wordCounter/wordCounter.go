@@ -7,6 +7,7 @@ import (
 	"log"
 	"os"
 	"regexp"
+	"strings"
 )
 
 /*
@@ -38,8 +39,12 @@ func main() {
 		\ is just \
 		and help to create multi-line strings
 	*/
-	//wordFreq(file)
-	removeApostropheS(file)
+	freqs, err := wordFreq(file)
+	if err != nil {
+		log.Printf("error %s", err)
+	}
+	fmt.Println(freqs)
+	//removeApostropheS(file)
 }
 
 // 's or 't
@@ -73,9 +78,8 @@ func wordFreq(r io.Reader) (map[string]int, error) {
 	for s.Scan() {
 		l := s.Text() // current line
 		words := wordRegx.FindAllString(l, -1)
-		if len(words) != 0 {
-			fmt.Println(words)
-			break
+		for _, w := range words {
+			hashMap[strings.ToLower(w)]++
 		}
 		lnums++
 		//for i, w := range l {
@@ -89,5 +93,5 @@ func wordFreq(r io.Reader) (map[string]int, error) {
 		return nil, err
 	}
 	fmt.Printf("Number of lines: %d", lnums)
-	return nil, nil
+	return hashMap, nil
 }
