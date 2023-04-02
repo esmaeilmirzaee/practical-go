@@ -6,6 +6,7 @@ import (
 	"io"
 	"log"
 	"os"
+	"regexp"
 )
 
 /*
@@ -19,7 +20,6 @@ func main() {
 	if err != nil {
 		log.Fatalf("error: %s", err)
 	}
-
 	log.Println("PATH: ", n)
 
 	file, err := os.Open("./assets/sherlock.txt")
@@ -33,23 +33,57 @@ func main() {
 			log.Fatalf("error: %s; couldn't close the file.", err)
 		}
 	}(file)
-
-	wordFreq(file)
+	/*
+		backticks create raw strings so
+		\ is just \
+		and help to create multi-line strings
+	*/
+	//wordFreq(file)
+	removeApostropheS(file)
 }
 
-func wordFreq(r io.Reader) (map[string]int, error) {
-	//	hashMap := make(map[string]int)
+// 's or 't
+var apostropheReg = regexp.MustCompile(`'s | 't`)
+
+func removeApostropheS(r io.Reader) io.Reader {
 	s := bufio.NewScanner(r)
+	for s.Scan() {
+		l := s.Text()
+		remove := apostropheReg.ReplaceAll([]byte(l), []byte(""))
+		fmt.Println(string(remove))
+	}
+	return nil
+}
+
+// find all words
+var wordRegx = regexp.MustCompile(`[a-zA-Z]+`)
+
+func wordFreq(r io.Reader) (map[string]int, error) {
+	//hashMap := map[string]int // [word]: count; also this is a nil map, in other words it's uninitialized
+	/*
+		hashMap := make(map[string]int) // initializes the hashMap
+		or
+		hashMap := map[string]int {
+			"appl": 173.23,
+		}
+	*/
+	s := bufio.NewScanner(r)
+	hashMap := make(map[string]int) // [word]: count
 	lnums := 0
 	for s.Scan() {
-		lnums++
-		l := s.Text() // Current line
-		for i, w := range l {
-			if i == 10 {
-				break
-			}
-			fmt.Println(string(w))
+		l := s.Text() // current line
+		words := wordRegx.FindAllString(l, -1)
+		if len(words) != 0 {
+			fmt.Println(words)
+			break
 		}
+		lnums++
+		//for i, w := range l {
+		//	if i == 10 {
+		//		break
+		//	}
+		//	fmt.Println(string(w))
+		//}
 	}
 	if err := s.Err(); err != nil {
 		return nil, err
