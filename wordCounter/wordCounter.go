@@ -39,12 +39,21 @@ func main() {
 		\ is just \
 		and help to create multi-line strings
 	*/
-	freqs, err := wordFreq(file)
+	displayMax(file)
+}
+
+func displayMax(r io.Reader) {
+	freqs, err := wordFreq(r)
 	if err != nil {
-		log.Printf("error %s", err)
+		log.Fatalf("error on word frequency: %s\n", err)
 	}
-	fmt.Println(freqs)
-	//removeApostropheS(file)
+
+	word, count, err := maxWord(freqs)
+	if err != nil {
+		log.Fatalf("error on finding the maximum: %s\n", err)
+	}
+
+	log.Printf("The number of occurance of %s is %d\n", word, count)
 }
 
 // 's or 't
@@ -82,16 +91,23 @@ func wordFreq(r io.Reader) (map[string]int, error) {
 			hashMap[strings.ToLower(w)]++
 		}
 		lnums++
-		//for i, w := range l {
-		//	if i == 10 {
-		//		break
-		//	}
-		//	fmt.Println(string(w))
-		//}
 	}
 	if err := s.Err(); err != nil {
 		return nil, err
 	}
-	fmt.Printf("Number of lines: %d", lnums)
+	fmt.Printf("Number of lines: %d\n", lnums)
 	return hashMap, nil
+}
+
+func maxWord(words map[string]int) (string, int, error) {
+	maxW, maxCount := "", 0
+
+	for w, _ := range words {
+		if words[w] > maxCount {
+			//fmt.Printf("w: %s, count: %d, maxw: %s, maxCount: %d", w, words[w], maxW, maxCount)
+			maxW, maxCount = w, words[w]
+		}
+	}
+
+	return maxW, maxCount, nil
 }
