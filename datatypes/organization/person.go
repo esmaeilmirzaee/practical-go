@@ -28,7 +28,8 @@ type Identifiable interface {
 }
 
 type Person struct {
-	Name           Name
+	// embedded struct, so p.first, p.last and p.FullName() are accessible. So there is no need to add Name
+	Name
 	Age            int
 	twitterHandler TwitterHandler
 }
