@@ -6,6 +6,18 @@ import (
 	"strings"
 )
 
+// type aliases
+// type TwitterHandler = string
+
+// TwitterHandler defines a new type which is just string
+// type declaration
+type TwitterHandler string
+
+func (th *TwitterHandler) RedirectUrl() string {
+	cleanedHandler := strings.TrimPrefix(string(*th), "@")
+	return fmt.Sprintf("https://www.twitter.com/%s", cleanedHandler)
+}
+
 type Identifiable interface {
 	ID() string
 }
@@ -14,7 +26,7 @@ type Person struct {
 	firstName      string
 	lastName       string
 	Age            int
-	twitterHandler string
+	twitterHandler TwitterHandler
 }
 
 func NewPerson(firstName, lastName string) Person {
@@ -32,8 +44,8 @@ func (p *Person) ID() string {
 	return "1234."
 }
 
-func (p *Person) SetHandler(handler string) error {
-	if !strings.HasPrefix(handler, "@") {
+func (p *Person) SetHandler(handler TwitterHandler) error {
+	if !strings.HasPrefix(string(handler), "@") {
 		return errors.New("handler should start with '@'")
 	}
 
@@ -41,6 +53,6 @@ func (p *Person) SetHandler(handler string) error {
 	return nil
 }
 
-func (p *Person) TwitterHandler() string {
+func (p *Person) TwitterHandler() TwitterHandler {
 	return p.twitterHandler
 }

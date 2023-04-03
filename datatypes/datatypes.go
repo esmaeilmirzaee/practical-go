@@ -11,9 +11,10 @@ func main() {
 	println(p2.FullName())
 	println(p.ID())
 
-	handler := "@esmaeilmirzaee"
+	handler := organization.TwitterHandler("@esmaeilmirzaee")
 	if err := p2.SetHandler(handler); err != nil {
 		fmt.Printf("%s", err.Error())
 	}
 	println("Twitter handler: ", p2.TwitterHandler())
+	println(handler.RedirectUrl())
 }
