@@ -8,7 +8,7 @@ import (
 func main() {
 	var p organization.Identifiable = &organization.Person{}
 	var p2 = organization.NewPerson("John", "Doe")
-	println(p2.FullName())
+	println(p2.Name.FullName())
 	println(p.ID())
 
 	handler := organization.TwitterHandler("@esmaeilmirzaee")
