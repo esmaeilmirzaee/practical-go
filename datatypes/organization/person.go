@@ -18,6 +18,16 @@ func (th *TwitterHandler) RedirectUrl() string {
 	return fmt.Sprintf("https://www.twitter.com/%s", cleanedHandler)
 }
 
+type socialSecurityNumber string
+
+func NewSocialSecurityNumber(value string) Identifiable {
+	return socialSecurityNumber(value)
+}
+
+func (ssn socialSecurityNumber) ID() string {
+	return string(ssn)
+}
+
 type Name struct {
 	first string
 	last  string
@@ -32,14 +42,16 @@ type Person struct {
 	Name
 	Age            int
 	twitterHandler TwitterHandler
+	Identifiable
 }
 
-func NewPerson(firstName, lastName string) Person {
+func NewPerson(firstName, lastName string, identifiable Identifiable) Person {
 	return Person{
 		Name: Name{
 			first: firstName,
 			last:  lastName,
 		},
+		Identifiable: identifiable,
 	}
 }
 
@@ -48,7 +60,7 @@ func (n *Name) FullName() string {
 }
 
 func (p *Person) ID() string {
-	return p.Name.FullName()
+	return "12345gh"
 }
 
 func (p *Person) SetHandler(handler TwitterHandler) error {
