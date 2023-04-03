@@ -53,7 +53,8 @@ func displayMax(r io.Reader) {
 		log.Fatalf("error on finding the maximum: %s\n", err)
 	}
 
-	log.Printf("The number of occurance of %s is %d\n", word, count)
+	log.Printf("The number of occurance of `%s` is %d\n", word, count)
+	//word, err := mostNthCommonWord(file, 5)
 }
 
 // 's or 't
@@ -111,3 +112,27 @@ func maxWord(words map[string]int) (string, int, error) {
 
 	return maxW, maxCount, nil
 }
+
+type wordCounter struct {
+	word map[string]int
+}
+
+//func mostNthCommonWord(r io.Reader, place int) (string, error) {
+//	freqs, err := wordFreq(r)
+//	counters := make(map[int]wordCounter)
+//	if err != nil {
+//		log.Fatalf("error on word frequency: %s\n", err)
+//	}
+//
+//	maxW, maxCount := "", 0
+//
+//	for w, _ := range freqs {
+//		if maxCount < freqs[w] {
+//			counters[0] = wordCounter{
+//				[w]: map[string]int{
+//					[w]: freqs[w],
+//				},
+//			}
+//		}
+//	}
+//}
