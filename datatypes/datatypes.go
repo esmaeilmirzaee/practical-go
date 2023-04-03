@@ -7,6 +7,7 @@ import (
 
 func main() {
 	var p organization.Identifiable = &organization.Person{}
+	p = organization.NewSocialSecurityNumber("p-123-12345")
 	var p2 = organization.NewPerson("John", "Doe", organization.NewSocialSecurityNumber("123-45-67890"))
 	println(p2.Name.FullName())
 	println(p.ID())

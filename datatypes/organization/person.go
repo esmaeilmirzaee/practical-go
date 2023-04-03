@@ -60,7 +60,7 @@ func (n *Name) FullName() string {
 }
 
 func (p *Person) ID() string {
-	return "12345gh"
+	return p.Identifiable.ID()
 }
 
 func (p *Person) SetHandler(handler TwitterHandler) error {
