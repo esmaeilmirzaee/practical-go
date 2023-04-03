@@ -6,6 +6,24 @@ import (
 )
 
 func main() {
+	//someFundamentals()
+	createAChannel()
+}
+
+func createAChannel() {
+	// Proverb #1: Don't communicate by sharing memory, share memory by communicating.
+	ch := make(chan string)
+	ch <- "Hi" // sending message
+	
+	fmt.Println(<-ch) // receiving message
+
+	// Channel semantics
+	/*
+		1. send & receive block the channel until the opposite action happens.
+	*/
+}
+
+func someFundamentals() {
 	/*
 		1. After the goroutine starts there is no way to access it
 		2. Defer doesn't wait for all the goroutines
